@@ -1,116 +1,92 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Ferris Wheel</title>
+<title>Heart Text Animation</title>
 
 <style>
     body {
         margin: 0;
-        background: #000;
+        background: black;
         height: 100vh;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
-        perspective: 1200px; 
-        overflow: hidden;
-        font-family: Arial, sans-serif;
+        font-family: monospace;
     }
 
-    /* RODA 3D */
-    .wheel {
+    #ui {
         position: relative;
-        width: 260px;
-        height: 260px;
+        width: 420px;
+        height: 420px;
         transform-style: preserve-3d;
-        animation: spin 10s linear infinite;
     }
 
-    @keyframes spin {
-        0%   { transform: rotateX(0deg); }
-        100% { transform: rotateX(360deg); }
-    }
-
-    /* TEXTOS */
-    .text {
+    /* Estilo de cada palavra */
+    #ui .love_word {
         position: absolute;
-        font-size: 22px;
-        font-weight: bold;
-        transform-style: preserve-3d;
-        animation: glow 2s ease-in-out infinite alternate;
+        color: #ea80b0;
+        font-size: 1.3rem;
+        text-shadow: 0 0 10px #ff8de6;
+        white-space: nowrap;
+        letter-spacing: 2px;
+        transform: translateY(-100%) rotateZ(-30deg);
     }
 
-    /* Luz e brilho nas letras */
-    @keyframes glow {
-        0% { 
-            color: #ffb3e6;
-            text-shadow: 0 0 8px #ff74d9, 0 0 20px #ff89ff;
-            transform: scale(1);
-        }
-        100% {
-            color: #ffffff;
-            text-shadow: 0 0 20px #ff4eb8, 0 0 45px #ff00a0;
-            transform: scale(1.15); /* efeito de pulo */
-        }
+    /* Animação de movimento horizontal */
+    @keyframes horizontal {
+        0%   { transform: translateX(-50px) translateY(-100%) rotateZ(-30deg); opacity: 0.2; }
+        50%  { transform: translateX(0px) translateY(-100%) rotateZ(-30deg); opacity: 1; }
+        100% { transform: translateX(50px) translateY(-100%) rotateZ(-30deg); opacity: 0.2; }
     }
 
-    /* Coração 3D no centro */
-    .heart-center {
-        position: absolute;
-        font-size: 50px;
-        color: #ff2d75;
-        text-shadow: 0 0 25px #ff2d75, 0 0 45px #ff5fa8;
-        animation: heartbeat 1.2s infinite;
-        transform: translateZ(60px);
-    }
-
-    @keyframes heartbeat {
-        0%   { transform: scale(1) translateZ(60px); }
-        50%  { transform: scale(1.25) translateZ(60px); }
-        100% { transform: scale(1) translateZ(60px); }
+    #ui .love_horizontal {
+        animation: horizontal 9000ms infinite alternate ease-in-out;
+        animation-delay: calc(var(--i) * -300ms);
     }
 </style>
 </head>
+
 <body>
 
-<div class="wheel" id="wheel">
-    <div class="heart-center">❤️</div>
-</div>
+<div id="ui"></div>
 
 <script>
-    const wheel = document.getElementById("wheel");
+    const ui = document.getElementById("ui");
 
-    // Frases diferentes girando
-    const phrases = [
-        "I love you",
-        "Você é especial",
-        "Meu carinho por você",
-        "Você ilumina tudo",
-        "Com amor"
-    ];
+    // Fórmula do coração (paramétrica)
+    function heartX(t) {
+        return 16 * Math.pow(Math.sin(t), 3);
+    }
 
-    const total = 40;
-    const radius = 130;
+    function heartY(t) {
+        return 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+    }
+
+    const total = 180;
 
     for (let i = 0; i < total; i++) {
-        const t = document.createElement("div");
-        t.className = "text";
+        let t = (i / total) * Math.PI * 2;
 
-        // alterna frases automaticamente
-        t.innerText = phrases[i % phrases.length];
+        let x = heartX(t) * 12; 
+        let y = -heartY(t) * 12;
 
-        let angle = (i / total) * 360;
+        let word = document.createElement("div");
+        word.classList.add("love_word", "love_horizontal");
+        word.style.setProperty("--i", i);
+        word.innerText = "I love you";
 
-        t.style.transform = `
-            rotateY(${angle}deg)
-            translateZ(${radius}px)
+        word.style.transform = `
+            translateX(${x}px)
+            translateY(${y}px)
+            rotate(${t}rad)
         `;
 
-        wheel.appendChild(t);
+        ui.appendChild(word);
     }
 </script>
 
 </body>
 </html>
-
