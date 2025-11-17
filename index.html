@@ -1,27 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Wheel</title>
+<title>3D Ferris Wheel</title>
 
 <style>
     body {
         margin: 0;
-        background: black;
+        background: #000;
         height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        perspective: 1000px; /* ESSENCIAL PARA O 3D */
+        perspective: 1200px; 
+        overflow: hidden;
+        font-family: Arial, sans-serif;
     }
 
+    /* RODA 3D */
     .wheel {
         position: relative;
-        width: 250px;
-        height: 250px;
+        width: 260px;
+        height: 260px;
         transform-style: preserve-3d;
-        animation: spin 8s linear infinite;
+        animation: spin 10s linear infinite;
     }
 
     @keyframes spin {
@@ -29,32 +32,74 @@
         100% { transform: rotateX(360deg); }
     }
 
+    /* TEXTOS */
     .text {
         position: absolute;
-        color: #ff9ecb;
-        font-size: 20px;
-        font-family: monospace;
-        white-space: nowrap;
-        text-shadow: 0 0 8px #ff74b7;
+        font-size: 22px;
+        font-weight: bold;
         transform-style: preserve-3d;
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    /* Luz e brilho nas letras */
+    @keyframes glow {
+        0% { 
+            color: #ffb3e6;
+            text-shadow: 0 0 8px #ff74d9, 0 0 20px #ff89ff;
+            transform: scale(1);
+        }
+        100% {
+            color: #ffffff;
+            text-shadow: 0 0 20px #ff4eb8, 0 0 45px #ff00a0;
+            transform: scale(1.15); /* efeito de pulo */
+        }
+    }
+
+    /* Coração 3D no centro */
+    .heart-center {
+        position: absolute;
+        font-size: 50px;
+        color: #ff2d75;
+        text-shadow: 0 0 25px #ff2d75, 0 0 45px #ff5fa8;
+        animation: heartbeat 1.2s infinite;
+        transform: translateZ(60px);
+    }
+
+    @keyframes heartbeat {
+        0%   { transform: scale(1) translateZ(60px); }
+        50%  { transform: scale(1.25) translateZ(60px); }
+        100% { transform: scale(1) translateZ(60px); }
     }
 </style>
 </head>
 <body>
 
-<div class="wheel" id="wheel"></div>
+<div class="wheel" id="wheel">
+    <div class="heart-center">❤️</div>
+</div>
 
 <script>
     const wheel = document.getElementById("wheel");
-    const total = 40; 
-    const radius = 120; // profundidade 3D
+
+    // Frases diferentes girando
+    const phrases = [
+        "I love you",
+        "Você é especial",
+        "Meu carinho por você",
+        "Você ilumina tudo",
+        "Com amor"
+    ];
+
+    const total = 40;
+    const radius = 130;
 
     for (let i = 0; i < total; i++) {
         const t = document.createElement("div");
         t.className = "text";
-        t.innerText = "I love you";
 
-        // distribui no círculo 3D
+        // alterna frases automaticamente
+        t.innerText = phrases[i % phrases.length];
+
         let angle = (i / total) * 360;
 
         t.style.transform = `
@@ -68,3 +113,4 @@
 
 </body>
 </html>
+
