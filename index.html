@@ -1,25 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>I Love U</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>I Love U</title>
+  <style>
+    body {
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .heart {
+      font-size: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      width: 250px;
+      height: 250px;
+      transform-style: preserve-3d;
+      animation: spin 4s linear infinite;
+    }
+
+    .letter {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff5ca7;
+      font-weight: bold;
+      font-size: 26px;
+      transform: rotateY(calc(var(--i) * 22.5deg)) translateZ(120px);
+      position: absolute;
+    }
+
+    @keyframes spin {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Música de fundo -->
-    <audio autoplay loop>
-        <source src="music.mp3" type="audio/mpeg" />
-    </audio>
+  <div class="heart">
+    <div class="letter" style="--i:0">I</div>
+    <div class="letter" style="--i:1">L</div>
+    <div class="letter" style="--i:2">O</div>
+    <div class="letter" style="--i:3">V</div>
+    <div class="letter" style="--i:4">E</div>
+    <div class="letter" style="--i:5">U</div>
+  </div>
 
-    <!-- Coração 3D -->
-    <div class="heart">
-        <span>I</span>
-        <span>LOVE</span>
-        <span>U</span>
-    </div>
+  <audio autoplay loop>
+    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Lee_Rosevere/Theme_Music/Lee_Rosevere_-_06_-_Ill_Remember_You.mp3" type="audio/mpeg">
+  </audio>
 
-    <script src="script.js"></script>
 </body>
 </html>
