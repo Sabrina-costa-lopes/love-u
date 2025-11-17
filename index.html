@@ -1,64 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>I Love U</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heart Text Wave</title>
+
+<style>
     body {
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-      color: white;
-      font-family: Arial, sans-serif;
+        margin: 0;
+        background: #000;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: monospace;
     }
 
-    .heart {
-      font-size: 40px;
-      display: flex;
-      flex-wrap: wrap;
-      width: 250px;
-      height: 250px;
-      transform-style: preserve-3d;
-      animation: spin 4s linear infinite;
+    #ui {
+        position: relative;
+        width: 420px;
+        height: 420px;
     }
 
-    .letter {
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ff5ca7;
-      font-weight: bold;
-      font-size: 26px;
-      transform: rotateX(calc(var(--i) * 22.5deg)) translateZ(120px);
-      position: absolute;
+    .word {
+        position: absolute;
+        color: #ff9ecb;
+        font-size: 1rem;
+        white-space: nowrap;
+        transform-origin: center;
+        animation: wave 4s ease-in-out infinite alternate;
+        opacity: 0.85;
     }
 
-    @keyframes spin {
-      from { transform: rotateX(0deg); }
-      to { transform: rotateX(360deg); }
+    /* MOVIMENTO ONDULADO — IGUAL DO VÍDEO */
+    @keyframes wave {
+        0%   { transform: translateX(-10px); }
+        100% { transform: translateX(10px); }
     }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <div class="heart">
-    <div class="letter" style="--i:0">I</div>
-    <div class="letter" style="--i:1">L</div>
-    <div class="letter" style="--i:2">O</div>
-    <div class="letter" style="--i:3">V</div>
-    <div class="letter" style="--i:4">E</div>
-    <div class="letter" style="--i:5">U</div>
-  </div>
+<div id="ui"></div>
 
-  <audio autoplay loop>
-    <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Lee_Rosevere/Theme_Music/Lee_Rosevere_-_06_-_Ill_Remember_You.mp3" type="audio/mpeg">
-  </audio>
+<script>
+    const ui = document.getElementById("ui");
 
-</body>
-</html>
+    // Fórmula matemática do coração
+    function heartX(t) {
+        return 16 * Math.pow(Math.sin(t), 3);
+    }
+
+    function hea
