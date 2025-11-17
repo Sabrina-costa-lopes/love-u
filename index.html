@@ -1,56 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heart Text Wave</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love U</title>
 
-<style>
-    body {
-        margin: 0;
-        background: #000;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        font-family: monospace;
-    }
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    #ui {
-        position: relative;
-        width: 420px;
-        height: 420px;
-    }
+        .heart {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: spin 8s linear infinite;
+        }
 
-    .word {
-        position: absolute;
-        color: #ff9ecb;
-        font-size: 1rem;
-        white-space: nowrap;
-        transform-origin: center;
-        animation: wave 4s ease-in-out infinite alternate;
-        opacity: 0.85;
-    }
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
 
-    /* MOVIMENTO ONDULADO — IGUAL DO VÍDEO */
-    @keyframes wave {
-        0%   { transform: translateX(-10px); }
-        100% { transform: translateX(10px); }
-    }
-</style>
+        .text {
+            position: absolute;
+            color: #ff9ecb;
+            font-size: 16px;
+            font-family: monospace;
+            white-space: nowrap;
+            text-shadow: 0 0 8px #ff74b7;
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="ui"></div>
+    <!-- Música -->
+    <audio autoplay loop>
+        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Kevin_MacLeod/Calming/Kevin_MacLeod_-_Calming.mp3" type="audio/mpeg">
+    </audio>
 
-<script>
-    const ui = document.getElementById("ui");
+    <div class="heart" id="heart"></div>
 
-    // Fórmula matemática do coração
-    function heartX(t) {
-        return 16 * Math.pow(Math.sin(t), 3);
-    }
+    <script>
+        const heart = document.getElementById("heart");
 
-    function hea
+        for (let i = 0; i < 60; i++) {
+            const t = document.createElement("div");
+            t.className = "text";
+            t.innerText = "I love you ";
+
+            let angle = (i / 60) * Math.PI * 2;
+            let x = 140 * Math.pow(Math.sin(angle), 3);
+            let y = -(
+                100 * Math.cos(angle) -
+                40 * Math.cos(2 * angle) -
+                20 * Math.cos(3 * angle) -
+                10 * Math.cos(4 * angle)
+            );
+
+            t.style.transform = `translate3d(${x}px, ${y}px, ${(i - 30) * 5}px)`;
+            heart.appendChild(t);
+        }
+    </script>
+
+</body>
+</html>
